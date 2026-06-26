@@ -4,13 +4,13 @@
             <img src="{{ asset('icon.svg') }}" alt="{{ config('app.name') }}" class="size-16 object-contain" />
         </div>
 
-        <div class="text-center text-slate-800">
-            <h1 class="text-2xl font-bold tracking-wide">Reset Password</h1>
-            <p class="mt-2 text-sm text-slate-500">Masukkan password baru untuk akun Anda.</p>
+        <div class="text-center text-white">
+            <h1 class="text-2xl font-semibold tracking-wide">Reset Password</h1>
+            <p class="mt-2 text-sm text-white/80">Masukkan password baru untuk akun Anda.</p>
         </div>
 
         @if ($errors->any())
-            <div class="w-full rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-800">
+            <div class="w-full rounded-lg border border-red-300/50 bg-red-500/20 px-4 py-3 text-center text-sm text-white">
                 {{ $errors->first() }}
             </div>
         @endif

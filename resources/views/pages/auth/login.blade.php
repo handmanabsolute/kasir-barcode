@@ -5,13 +5,13 @@
         </div>
 
         @if (session('status'))
-            <div class="w-full rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-center text-sm text-blue-800">
+            <div class="w-full rounded-lg border border-white/30 bg-white/10 px-4 py-3 text-center text-sm text-white">
                 {{ session('status') }}
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="w-full rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-800">
+            <div class="w-full rounded-lg border border-red-300/50 bg-red-500/20 px-4 py-3 text-center text-sm text-white">
                 {{ $errors->first() }}
             </div>
         @endif
@@ -61,7 +61,7 @@
 
             @if (Route::has('password.request'))
                 <div class="text-end">
-                    <a href="{{ route('password.request') }}" class="text-sm text-blue-600 font-semibold transition hover:text-blue-700">
+                    <a href="{{ route('password.request') }}" class="text-sm text-white/90 transition hover:text-white">
                         Lupa Password?
                     </a>
                 </div>
