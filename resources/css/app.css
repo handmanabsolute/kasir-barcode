@@ -64,7 +64,7 @@ select:focus[data-flux-control] {
 /* Kasir auth */
 .kasir-auth {
     min-height: 100vh;
-    background: linear-gradient(160deg, #0b3d91 0%, #1565c0 45%, #1e88e5 100%);
+    background: linear-gradient(135deg, #e0f2fe 0%, #e0e7ff 50%, #eff6ff 100%);
     position: relative;
     overflow: hidden;
 }
@@ -79,8 +79,8 @@ select:focus[data-flux-control] {
 .kasir-auth__wave {
     position: absolute;
     border-radius: 50%;
-    opacity: 0.18;
-    background: rgba(255, 255, 255, 0.35);
+    opacity: 0.12;
+    background: rgba(59, 130, 246, 0.3);
 }
 
 .kasir-auth__wave--1 {
@@ -95,7 +95,7 @@ select:focus[data-flux-control] {
     height: 680px;
     bottom: -220px;
     right: -140px;
-    opacity: 0.12;
+    opacity: 0.08;
 }
 
 .kasir-auth__wave--3 {
@@ -103,7 +103,7 @@ select:focus[data-flux-control] {
     height: 420px;
     top: 35%;
     right: 18%;
-    opacity: 0.1;
+    opacity: 0.07;
 }
 
 .kasir-input-group {
@@ -116,43 +116,47 @@ select:focus[data-flux-control] {
     left: 1rem;
     z-index: 1;
     display: flex;
-    color: rgba(255, 255, 255, 0.9);
+    color: #64748b;
     transform: translateY(-50%);
 }
 
 .kasir-input {
     width: 100%;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid #cbd5e1;
+    background: rgba(255, 255, 255, 0.95);
     padding: 0.95rem 1rem 0.95rem 3rem;
-    color: #fff;
+    color: #0f172a;
     font-size: 0.875rem;
+    border-radius: 0.75rem;
     outline: none;
-    transition: border-color 0.2s, background-color 0.2s;
+    transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 
 .kasir-input::placeholder {
-    color: rgba(255, 255, 255, 0.75);
+    color: #94a3b8;
 }
 
 .kasir-input:focus {
-    border-color: #fff;
-    background: rgba(255, 255, 255, 0.14);
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .kasir-button {
     width: 100%;
     border: none;
-    background: #fff;
-    color: #1565c0;
+    background: #2563eb;
+    color: #fff;
     padding: 0.95rem 1rem;
     font-size: 0.95rem;
     font-weight: 700;
+    border-radius: 0.75rem;
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s;
+    transition: transform 0.15s, box-shadow 0.15s, background-color 0.2s;
 }
 
 .kasir-button:hover {
+    background: #1d4ed8;
     transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 24px rgba(37, 99, 235, 0.25);
 }

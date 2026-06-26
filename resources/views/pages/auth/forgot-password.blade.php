@@ -4,19 +4,19 @@
             <img src="{{ asset('icon.svg') }}" alt="{{ config('app.name') }}" class="size-16 object-contain" />
         </div>
 
-        <div class="text-center text-white">
-            <h1 class="text-2xl font-semibold tracking-wide">Lupa Password</h1>
-            <p class="mt-2 text-sm text-white/80">Masukkan username atau email untuk menerima link reset password.</p>
+        <div class="text-center text-slate-800">
+            <h1 class="text-2xl font-bold tracking-wide">Lupa Password</h1>
+            <p class="mt-2 text-sm text-slate-500">Masukkan username atau email untuk menerima link reset password.</p>
         </div>
 
         @if (session('status'))
-            <div class="w-full rounded-lg border border-white/30 bg-white/10 px-4 py-3 text-center text-sm text-white">
+            <div class="w-full rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 text-center text-sm text-blue-800">
                 {{ session('status') }}
             </div>
         @endif
 
         @if ($errors->any())
-            <div class="w-full rounded-lg border border-red-300/50 bg-red-500/20 px-4 py-3 text-center text-sm text-white">
+            <div class="w-full rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-800">
                 {{ $errors->first() }}
             </div>
         @endif
@@ -47,7 +47,7 @@
             </button>
 
             <div class="text-center">
-                <a href="{{ route('login') }}" class="text-sm text-white/90 transition hover:text-white">
+                <a href="{{ route('login') }}" class="text-sm text-blue-600 font-semibold transition hover:text-blue-700">
                     Kembali ke Login
                 </a>
             </div>

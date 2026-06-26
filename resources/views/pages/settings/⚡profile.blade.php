@@ -16,8 +16,8 @@ new #[Title('Profile settings')] class extends Component {
 
     public string $name = '';
     public string $email = '';
-    public string $current_password = '';
     public string $password = '';
+    public string $password_confirmation = '';
 
     /**
      * Mount the component.
@@ -46,8 +46,7 @@ new #[Title('Profile settings')] class extends Component {
         // Update password if new password field is filled
         if ($this->password !== '') {
             $this->validate([
-                'current_password' => ['required', 'string', 'current_password'],
-                'password' => ['required', 'string', Password::default()],
+                'password' => ['required', 'string', Password::default(), 'confirmed'],
             ]);
 
             $user->password = Hash::make($this->password);
@@ -55,7 +54,7 @@ new #[Title('Profile settings')] class extends Component {
 
         $user->save();
 
-        $this->reset('current_password', 'password');
+        $this->reset('password', 'password_confirmation');
 
         Flux::toast(variant: 'success', text: __('Profil dan sandi berhasil diperbarui.'));
     }
@@ -117,18 +116,18 @@ new #[Title('Profile settings')] class extends Component {
             </div>
 
             <flux:input
-                wire:model="current_password"
-                :label="__('Sandi Lama')"
+                wire:model="password"
+                :label="__('Sandi Baru')"
                 type="password"
-                placeholder="Masukkan sandi lama jika ingin mengganti sandi"
+                placeholder="Masukkan sandi baru jika ingin mengubah sandi"
                 viewable
             />
 
             <flux:input
-                wire:model="password"
-                :label="__('Sandi Baru')"
+                wire:model="password_confirmation"
+                :label="__('Konfirmasi Sandi Baru')"
                 type="password"
-                placeholder="Masukkan sandi baru"
+                placeholder="Masukkan kembali sandi baru"
                 viewable
             />
 

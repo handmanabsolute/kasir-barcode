@@ -28,6 +28,44 @@ test('profile information can be updated', function () {
     expect($user->email_verified_at)->toBeNull();
 });
 
+test('profile password can be updated', function () {
+    $user = User::factory()->create([
+        'password' => \Illuminate\Support\Facades\Hash::make('old-password'),
+    ]);
+
+    $this->actingAs($user);
+
+    $response = Livewire::test('pages::settings.profile')
+        ->set('name', 'Test User')
+        ->set('email', 'test@example.com')
+        ->set('password', 'new-password')
+        ->set('password_confirmation', 'new-password')
+        ->call('updateProfileInformation');
+
+    $response->assertHasNoErrors();
+
+    $user->refresh();
+
+    expect(\Illuminate\Support\Facades\Hash::check('new-password', $user->password))->toBeTrue();
+});
+
+test('profile password requires confirmation', function () {
+    $user = User::factory()->create([
+        'password' => \Illuminate\Support\Facades\Hash::make('old-password'),
+    ]);
+
+    $this->actingAs($user);
+
+    $response = Livewire::test('pages::settings.profile')
+        ->set('name', 'Test User')
+        ->set('email', 'test@example.com')
+        ->set('password', 'new-password')
+        ->set('password_confirmation', 'different-password')
+        ->call('updateProfileInformation');
+
+    $response->assertHasErrors(['password']);
+});
+
 test('email verification status is unchanged when email address is unchanged', function () {
     $user = User::factory()->create();
 
