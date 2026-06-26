@@ -18,26 +18,8 @@ class UserSeeder extends Seeder
                 'name' => 'Admin Kasir',
                 'username' => 'admin',
                 'email' => 'admin@kasir.local',
-                'password' => 'password',
-            ],
-            [
-                'name' => 'Kasir Demo',
-                'username' => 'kasir',
-                'email' => 'kasir@example.com',
-                'password' => 'password',
-            ],
-            [
-                'name' => 'Budi Santoso',
-                'username' => 'budi',
-                'email' => 'budi@example.com',
-                'password' => 'password',
-            ],
-            [
-                'name' => 'Siti Rahayu',
-                'username' => 'siti',
-                'email' => 'siti@example.com',
-                'password' => 'password',
-            ],
+                'password' => 'admin123',
+            ]
         ];
 
         foreach ($users as $user) {
