@@ -114,10 +114,21 @@ new #[Title('Produk')] class extends Component {
     }
 }; ?>
 
-<div class="flex w-full flex-col gap-6">
+<div class="flex w-full flex-col gap-6" x-data="{
+    init() {
+        window.addEventListener('barcode-scanned', (e) => {
+            this.$wire.set('barcode', e.detail);
+        });
+    }
+}">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-            <flux:heading size="xl">Produk</flux:heading>
+            <div class="flex items-center gap-2">
+                <flux:heading size="xl">Produk</flux:heading>
+                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400">
+                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Scanner USB: Aktif
+                </span>
+            </div>
             <flux:text class="mt-1">Kelola produk, stok, harga, dan barcode. Scanner USB akan mengisi field barcode otomatis.</flux:text>
         </div>
 
@@ -130,6 +141,7 @@ new #[Title('Produk')] class extends Component {
             </flux:modal.trigger>
         </div>
     </div>
+
 
     <div class="grid gap-6 xl:grid-cols-[380px_minmax(0,1fr)]">
         <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
