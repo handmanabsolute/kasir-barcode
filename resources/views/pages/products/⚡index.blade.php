@@ -123,12 +123,7 @@ new #[Title('Produk')] class extends Component {
 }">
     <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-            <div class="flex items-center gap-2">
-                <flux:heading size="xl">Produk</flux:heading>
-                <span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400">
-                    <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Scanner USB: Aktif
-                </span>
-            </div>
+            <flux:heading size="xl">Produk</flux:heading>
             <flux:text class="mt-1">Kelola produk, stok, harga, dan barcode. Scanner USB akan mengisi field barcode otomatis.</flux:text>
         </div>
 
