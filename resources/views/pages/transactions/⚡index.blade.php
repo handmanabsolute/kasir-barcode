@@ -20,19 +20,28 @@ new #[Title('Transaksi Kasir')] class extends Component {
 
     public function addByBarcode(): void
     {
-        $barcode = trim($this->scanCode);
+        $queryText = trim($this->scanCode);
 
-        if ($barcode === '') {
+        if ($queryText === '') {
             return;
         }
 
+        // 1. Try search by exact barcode first
         $product = Product::query()
-            ->where('barcode', $barcode)
+            ->where('barcode', $queryText)
             ->where('is_active', true)
             ->first();
 
+        // 2. If not found, try search by product name
         if (! $product) {
-            Flux::toast(variant: 'danger', text: 'Produk dengan barcode '.$barcode.' tidak ditemukan.');
+            $product = Product::query()
+                ->where('name', 'like', '%' . $queryText . '%')
+                ->where('is_active', true)
+                ->first();
+        }
+
+        if (! $product) {
+            Flux::toast(variant: 'danger', text: 'Produk dengan barcode atau nama "'.$queryText.'" tidak ditemukan.');
             $this->scanCode = '';
 
             return;
@@ -185,8 +194,8 @@ new #[Title('Transaksi Kasir')] class extends Component {
                     <div class="flex-1">
                         <flux:input
                             wire:model="scanCode"
-                            label="Scan barcode"
-                            placeholder="Scan produk dengan alat barcode USB"
+                            label="Cari Produk / Scan Barcode"
+                            placeholder="Ketik nama produk atau scan barcode..."
                             autofocus
                         />
                     </div>
