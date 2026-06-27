@@ -9,10 +9,8 @@
         </script>
         <style>
             /* ============================================
-               SIDEBAR MODERN — Custom redesign
+               SIDEBAR MODERN — Fixed light theme
                ============================================ */
-
-            /* ── Light Theme ── */
             .sidebar-modern {
                 --sidebar-bg: #f8f9fc;
                 --sidebar-border: #e2e5ed;
@@ -32,38 +30,17 @@
                 --sidebar-profile-shadow: 0 1px 2px rgba(0,0,0,0.04);
                 --sidebar-badge-bg: #3b5de7;
                 --sidebar-badge-text: #ffffff;
+                --sidebar-logout-text: #dc2626;
+                --sidebar-logout-hover: #fef2f2;
+                --sidebar-logout-border: #fecaca;
             }
 
-            /* ── Dark Theme ── */
-            .dark .sidebar-modern {
-                --sidebar-bg: #0f1119;
-                --sidebar-border: #1e2030;
-                --sidebar-text: #9ca3bf;
-                --sidebar-text-muted: #5c617e;
-                --sidebar-hover-bg: #1a1d2e;
-                --sidebar-hover-text: #e8ecf4;
-                --sidebar-active-bg: #1a2245;
-                --sidebar-active-text: #6d8cff;
-                --sidebar-active-border: #3b5de7;
-                --sidebar-brand-bg: #151829;
-                --sidebar-brand-shadow: 0 1px 3px rgba(0,0,0,0.2);
-                --sidebar-divider: #1e2030;
-                --sidebar-header-bg: #0f1119;
-                --sidebar-profile-bg: #151829;
-                --sidebar-profile-border: #1e2030;
-                --sidebar-profile-shadow: 0 1px 2px rgba(0,0,0,0.2);
-                --sidebar-badge-bg: #3b5de7;
-                --sidebar-badge-text: #ffffff;
-            }
-
-            /* ── Sidebar container ── */
             .sidebar-modern {
-                background: var(--sidebar-bg) !important;
-                border-right: 1px solid var(--sidebar-border) !important;
-                transition: background 0.2s ease;
+                background: var(--sidebar-bg);
+                border-right: 1px solid var(--sidebar-border);
             }
 
-            /* ── Header / Brand area ── */
+            /* ── Header / Brand ── */
             .sidebar-modern .sidebar-header-area {
                 background: var(--sidebar-header-bg);
                 border-bottom: 1px solid var(--sidebar-divider);
@@ -117,7 +94,7 @@
                 letter-spacing: 0.5px;
             }
 
-            /* ── Navigation group heading ── */
+            /* ── Section label ── */
             .sidebar-modern .sidebar-section-label {
                 font-size: 10px;
                 font-weight: 600;
@@ -127,7 +104,7 @@
                 padding: 16px 20px 6px;
             }
 
-            /* ── Navigation items ── */
+            /* ── Nav items ── */
             .sidebar-modern .sidebar-nav-item {
                 display: flex;
                 align-items: center;
@@ -156,7 +133,6 @@
                 transform: scale(0.98);
             }
 
-            /* ── Active / Current nav item ── */
             .sidebar-modern .sidebar-nav-item.current,
             .sidebar-modern .sidebar-nav-item.active {
                 background: var(--sidebar-active-bg);
@@ -177,7 +153,6 @@
                 border-radius: 0 3px 3px 0;
             }
 
-            /* ── Nav icon ── */
             .sidebar-modern .sidebar-nav-icon {
                 width: 20px;
                 height: 20px;
@@ -192,22 +167,9 @@
                 height: 18px;
             }
 
-            /* ── Badge / count ── */
-            .sidebar-modern .sidebar-nav-badge {
-                margin-left: auto;
-                background: var(--sidebar-badge-bg);
-                color: var(--sidebar-badge-text);
-                font-size: 10px;
-                font-weight: 700;
-                padding: 1px 7px;
-                border-radius: 10px;
-                min-width: 20px;
-                text-align: center;
-            }
-
-            /* ── Profile / User area ── */
+            /* ── Profile ── */
             .sidebar-modern .sidebar-profile-area {
-                margin: 8px 10px 12px;
+                margin: 8px 10px 4px;
                 padding: 10px 12px;
                 background: var(--sidebar-profile-bg);
                 border: 1px solid var(--sidebar-profile-border);
@@ -272,7 +234,41 @@
             }
 
             .sidebar-modern .sidebar-profile-area:hover .sidebar-profile-chevron {
-                transform: rotate(180deg);
+                transform: translateX(3px);
+            }
+
+            /* ── Logout Button ── */
+            .sidebar-modern .sidebar-logout-btn {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin: 4px 10px 12px;
+                padding: 10px 14px;
+                border-radius: 8px;
+                color: var(--sidebar-logout-text);
+                font-size: 13px;
+                font-weight: 500;
+                text-decoration: none;
+                border: 1px solid transparent;
+                background: transparent;
+                transition: all 0.15s ease;
+                cursor: pointer;
+                width: auto;
+            }
+
+            .sidebar-modern .sidebar-logout-btn:hover {
+                background: var(--sidebar-logout-hover);
+                border-color: var(--sidebar-logout-border);
+            }
+
+            .sidebar-modern .sidebar-logout-btn:active {
+                transform: scale(0.98);
+            }
+
+            .sidebar-modern .sidebar-logout-btn svg {
+                width: 18px;
+                height: 18px;
+                flex-shrink: 0;
             }
 
             /* ── Divider ── */
@@ -294,7 +290,9 @@
                 border-radius: 2px;
             }
 
-            /* ── Responsive tweaks ── */
+
+
+            /* ── Mobile ── */
             @media (max-width: 1023px) {
                 .sidebar-modern .sidebar-section-label {
                     padding: 12px 16px 4px;
@@ -304,31 +302,27 @@
                     margin: 1px 8px;
                 }
                 .sidebar-modern .sidebar-profile-area {
-                    margin: 4px 8px 8px;
+                    margin: 4px 8px 4px;
+                }
+                .sidebar-modern .sidebar-logout-btn {
+                    margin: 4px 8px 10px;
                 }
             }
 
-            /* ── Override Flux sidebar defaults ── */
             [data-flux-sidebar] {
                 --sidebar-width: 260px !important;
             }
-
-            /* Hide Flux's built-in header/nav to use our custom one */
-            .sidebar-modern [data-flux-sidebar-header] {
-                display: none !important;
-            }
-            .sidebar-modern [data-flux-sidebar-nav] {
-                display: none !important;
-            }
+            .sidebar-modern [data-flux-sidebar-header],
+            .sidebar-modern [data-flux-sidebar-nav],
             .sidebar-modern [data-flux-sidebar-footer] {
                 display: none !important;
             }
         </style>
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        {{-- Modern Sidebar --}}
+    <body class="min-h-screen bg-white">
+        {{-- Sidebar --}}
         <div class="sidebar-modern fixed inset-y-0 left-0 z-30 flex w-[260px] flex-col overflow-hidden" data-flux-sidebar>
-            {{-- Brand Header --}}
+            {{-- Brand --}}
             <div class="sidebar-header-area">
                 <a href="{{ route('dashboard') }}" class="sidebar-brand" wire:navigate>
                     <div class="sidebar-brand-icon">
@@ -391,70 +385,32 @@
                 </a>
             </nav>
 
-            {{-- User Profile --}}
-            <div class="sidebar-profile-area relative" x-data="{ open: false }" @click.away="open = false">
-                <div class="sidebar-profile-inner"
-                    @click="open = !open"
-                    @keydown.escape.window="open = false"
-                    role="button"
-                    tabindex="0"
-                    aria-label="Menu pengguna"
-                    data-test="sidebar-menu-button">
+            {{-- Profile --}}
+            <a href="{{ route('profile.edit') }}" class="sidebar-profile-area block no-underline" wire:navigate>
+                <div class="sidebar-profile-inner">
                     <div class="sidebar-profile-avatar">{{ auth()->user()->initials() }}</div>
                     <div class="sidebar-profile-info">
                         <div class="sidebar-profile-name">{{ auth()->user()->name }}</div>
                         <div class="sidebar-profile-email">{{ auth()->user()->email }}</div>
                     </div>
-                    <svg class="sidebar-profile-chevron" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+                    <svg class="sidebar-profile-chevron" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18 15 12 9 6"/></svg>
                 </div>
+            </a>
 
-                {{-- Dropdown Menu --}}
-                <div x-show="open"
-                    x-transition:enter="transition ease-out duration-100"
-                    x-transition:enter-start="opacity-0 scale-95"
-                    x-transition:enter-end="opacity-100 scale-100"
-                    x-transition:leave="transition ease-in duration-75"
-                    x-transition:leave-start="opacity-100 scale-100"
-                    x-transition:leave-end="opacity-0 scale-95"
-                    class="absolute bottom-full left-0 right-0 mb-2 mx-2 rounded-xl border border-zinc-200 bg-white py-1 shadow-lg dark:border-zinc-700 dark:bg-zinc-800"
-                    style="display: none;">
-                    {{-- User Info --}}
-                    <div class="flex items-center gap-2 px-3 py-2 text-sm">
-                        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 text-xs font-bold text-white">
-                            {{ auth()->user()->initials() }}
-                        </div>
-                        <div class="min-w-0 flex-1 leading-tight">
-                            <div class="truncate font-medium text-zinc-900 dark:text-white">{{ auth()->user()->name }}</div>
-                            <div class="truncate text-xs text-zinc-500 dark:text-zinc-400">{{ auth()->user()->email }}</div>
-                        </div>
-                    </div>
-                    <hr class="mx-2 border-zinc-100 dark:border-zinc-700">
-                    {{-- Settings --}}
-                    <a href="{{ route('profile.edit') }}" wire:navigate
-                        class="flex items-center gap-2 px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-700/50"
-                        @click="open = false">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-zinc-400"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        {{ __('Settings') }}
-                    </a>
-                    <hr class="mx-2 border-zinc-100 dark:border-zinc-700">
-                    {{-- Logout --}}
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit"
-                            class="flex w-full items-center gap-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-950/30"
-                            @click="open = false">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                            {{ __('Log out') }}
-                        </button>
-                    </form>
-                </div>
-            </div>
+            {{-- Logout — standalone button --}}
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="sidebar-logout-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Keluar
+                </button>
+            </form>
         </div>
 
-        {{-- Main Content Area --}}
+        {{-- Main Content --}}
         <div class="min-h-screen lg:pl-[260px]">
             {{-- Mobile Header --}}
-            <flux:header class="lg:hidden sticky top-0 z-20 border-b border-zinc-200 bg-white dark:border-zinc-700 dark:bg-zinc-900">
+            <flux:header class="lg:hidden sticky top-0 z-20 border-b border-zinc-200 bg-white">
                 <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
                 <flux:spacer />
                 <flux:dropdown position="top" align="end">
@@ -500,7 +456,6 @@
                 </flux:dropdown>
             </flux:header>
 
-            {{-- Main Slot --}}
             <main>
                 {{ $slot }}
             </main>
@@ -514,13 +469,13 @@
 
         @fluxScripts
 
-        {{-- Mobile Sidebar Overlay --}}
+        {{-- Mobile Overlay --}}
         <div id="sidebar-overlay"
             class="fixed inset-0 z-20 hidden bg-black/50 lg:hidden"
             onclick="toggleMobileSidebar()"
         ></div>
 
-        {{-- Mobile Sidebar Panel --}}
+        {{-- Mobile Sidebar --}}
         <div id="mobile-sidebar"
             class="sidebar-modern fixed inset-y-0 left-0 z-30 w-[260px] -translate-x-full transform transition-transform duration-200 ease-in-out lg:hidden"
             data-flux-sidebar>
@@ -534,7 +489,7 @@
                         <span class="sidebar-brand-sub">Point of Sale</span>
                     </div>
                 </div>
-                <button onclick="toggleMobileSidebar()" class="absolute right-3 top-4 text-zinc-500 hover:text-zinc-800 dark:hover:text-white">
+                <button onclick="toggleMobileSidebar()" class="absolute right-3 top-4 text-zinc-500 hover:text-zinc-800">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
                 </button>
             </div>
@@ -561,6 +516,13 @@
                     <span>Laporan</span>
                 </a>
             </nav>
+            <form method="POST" action="{{ route('logout') }}" class="px-2 pb-3">
+                @csrf
+                <button type="submit" class="sidebar-logout-btn w-full" onclick="toggleMobileSidebar()">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Keluar
+                </button>
+            </form>
         </div>
 
         <script>
@@ -568,29 +530,20 @@
                 const sidebar = document.getElementById('mobile-sidebar');
                 const overlay = document.getElementById('sidebar-overlay');
                 if (!sidebar || !overlay) return;
-
                 const isOpen = !sidebar.classList.contains('-translate-x-full');
                 sidebar.classList.toggle('-translate-x-full', isOpen);
                 sidebar.classList.toggle('translate-x-0', !isOpen);
                 overlay.classList.toggle('hidden', isOpen);
                 document.body.classList.toggle('overflow-hidden', !isOpen);
             }
-
-            // Listen for Flux sidebar toggle on mobile
             document.addEventListener('click', function(e) {
-                const toggle = e.target.closest('[data-flux-sidebar-toggle]') || e.target.closest('.lg\\:hidden [class*=\"bars-2\"]');
-                if (toggle && window.innerWidth < 1024) {
-                    toggleMobileSidebar();
-                }
+                const toggle = e.target.closest('[data-flux-sidebar-toggle]') || e.target.closest('.lg\\:hidden [class*="bars-2"]');
+                if (toggle && window.innerWidth < 1024) toggleMobileSidebar();
             });
-
-            // Keyboard shortcut: Escape to close mobile sidebar
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape') {
                     const sidebar = document.getElementById('mobile-sidebar');
-                    if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
-                        toggleMobileSidebar();
-                    }
+                    if (sidebar && !sidebar.classList.contains('-translate-x-full')) toggleMobileSidebar();
                 }
             });
         </script>
@@ -600,54 +553,36 @@
             (function() {
                 let barcodeBuffer = '';
                 let lastKeyTime = Date.now();
-
                 function playBeep() {
                     try {
                         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                         const oscillator = audioCtx.createOscillator();
                         const gainNode = audioCtx.createGain();
-
                         oscillator.connect(gainNode);
                         gainNode.connect(audioCtx.destination);
-
                         oscillator.type = 'sine';
                         oscillator.frequency.setValueAtTime(1000, audioCtx.currentTime);
                         gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime);
-
                         oscillator.start();
                         oscillator.stop(audioCtx.currentTime + 0.08);
-                    } catch (e) {
-                        console.warn("Audio beep failed:", e);
-                    }
+                    } catch (e) { console.warn("Audio beep failed:", e); }
                 }
-
                 window.addEventListener('keydown', function(e) {
                     const currentTime = Date.now();
                     const timeDiff = currentTime - lastKeyTime;
                     lastKeyTime = currentTime;
-
-                    if (timeDiff > 50) {
-                        barcodeBuffer = '';
-                    }
-
+                    if (timeDiff > 50) { barcodeBuffer = ''; }
                     if (e.key === 'Enter') {
                         if (barcodeBuffer.length >= 4) {
                             e.preventDefault();
                             const scannedCode = barcodeBuffer;
                             barcodeBuffer = '';
-
                             playBeep();
-
                             window.dispatchEvent(new CustomEvent('barcode-scanned', { detail: scannedCode }));
-                        } else {
-                            barcodeBuffer = '';
-                        }
+                        } else { barcodeBuffer = ''; }
                         return;
                     }
-
-                    if (e.key.length === 1 && /[a-zA-Z0-9]/.test(e.key)) {
-                        barcodeBuffer += e.key;
-                    }
+                    if (e.key.length === 1 && /[a-zA-Z0-9]/.test(e.key)) { barcodeBuffer += e.key; }
                 });
             })();
         </script>
