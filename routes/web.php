@@ -18,6 +18,7 @@ Route::middleware(['auth'])->group(function () {
     Route::livewire('categories', 'pages::categories.index')->name('categories.index');
     Route::livewire('products', 'pages::products.index')->name('products.index');
     Route::livewire('transactions', 'pages::transactions.index')->name('transactions.index');
+    Route::livewire('reports', 'pages::reports.index')->name('reports.index');
 });
 
 require __DIR__.'/settings.php';

@@ -7,15 +7,15 @@
                 <flux:icon.printer class="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
                 <span x-text="type === 'barcode' ? 'Pengaturan Printer Barcode' : 'Pengaturan Printer Struk'"></span>
             </flux:heading>
-            <flux:text class="mt-1" x-text="type === 'barcode' ? 'Pilih perangkat USB printer barcode (label) yang terhubung untuk mencetak barcode.' : 'Pilih perangkat USB printer struk (thermal) yang terhubung untuk mencetak struk belanja.'"></flux:text>
+            <flux:text class="mt-1" x-text="type === 'barcode' ? 'Hubungkan printer barcode atau alat scan USB untuk mencetak label.' : 'Hubungkan printer struk thermal USB untuk mencetak struk belanja.'"></flux:text>
         </div>
 
         <!-- Browser Support Warning -->
-        <template x-if="!supported && !supportedSerial">
+        <template x-if="!supportedUSB">
             <div class="p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-xs flex gap-2">
                 <flux:icon.exclamation-triangle class="h-4 w-4 shrink-0 mt-0.5" />
                 <div>
-                    <strong>Peringatan:</strong> Browser Anda tidak mendukung WebUSB atau Web Serial. Pencetakan otomatis dialihkan menggunakan dialog browser (window.print). Gunakan Google Chrome atau Microsoft Edge untuk dukungan USB/Serial penuh.
+                    <strong>Peringatan:</strong> Browser Anda tidak mendukung WebUSB. Pencetakan otomatis dialihkan menggunakan dialog browser (window.print). Gunakan Google Chrome atau Microsoft Edge untuk dukungan USB penuh.
                 </div>
             </div>
         </template>
@@ -24,7 +24,7 @@
             <!-- Connection Status -->
             <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 space-y-3">
                 <div class="flex items-center justify-between">
-                    <span class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Status Printer:</span>
+                    <span class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Status Perangkat:</span>
                     <template x-if="printerSelected">
                         <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400">
                             <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Terhubung
@@ -42,48 +42,81 @@
                         <div class="space-y-1.5">
                             <div class="font-medium text-zinc-800 dark:text-zinc-200" x-text="printerName"></div>
                             <div class="text-xs text-zinc-500 dark:text-zinc-400">
-                                Mode: <span class="font-semibold uppercase text-blue-600 dark:text-blue-400" x-text="printerMode === 'serial' ? 'Serial / COM' : 'USB (WebUSB)'"></span>
-                                <template x-if="printerMode === 'direct'">
-                                    <span>(Vendor: <span x-text="'0x' + Number(vendorId).toString(16).toUpperCase()"></span> | Prod: <span x-text="'0x' + Number(productId).toString(16).toUpperCase()"></span>)</span>
-                                </template>
+                                ID: <span class="font-mono text-blue-600 dark:text-blue-400">0x<span x-text="Number(vendorId).toString(16).toUpperCase().padStart(4, '0')"></span>:0x<span x-text="Number(productId).toString(16).toUpperCase().padStart(4, '0')"></span></span>
                             </div>
+                            <template x-if="printerVerified">
+                                <div class="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                                    <flux:icon.check-circle class="h-3 w-3" />
+                                    <span>Perangkat siap digunakan</span>
+                                </div>
+                            </template>
+                            <template x-if="!printerVerified && printerSelected">
+                                <div class="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 mt-1">
+                                    <flux:icon.exclamation-triangle class="h-3 w-3" />
+                                    <span>Perangkat tersimpan namun tidak terdeteksi. Klik "Deteksi Ulang".</span>
+                                </div>
+                            </template>
                         </div>
                     </template>
                     <template x-if="!printerSelected">
-                        <span class="text-zinc-500 dark:text-zinc-400 text-xs">Silakan hubungkan printer USB/Serial Anda menggunakan salah satu metode di bawah.</span>
+                        <span class="text-zinc-500 dark:text-zinc-400 text-xs">Klik tombol di bawah untuk menghubungkan printer atau alat scan USB.</span>
                     </template>
                 </div>
 
                 <div class="flex flex-col gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-700">
                     <template x-if="!printerSelected">
-                        <div class="space-y-2 w-full">
-                            <flux:button size="sm" variant="primary" class="w-full justify-center" @click="connectDevice()" x-bind:loading="connecting" :disabled="!supported">
-                                Hubungkan via USB (WebUSB)
-                            </flux:button>
-                            <flux:button size="sm" variant="outline" class="w-full justify-center" @click="connectSerialDevice()" x-bind:loading="connecting" :disabled="!supportedSerial">
-                                Hubungkan via Serial / COM (Web Serial)
-                            </flux:button>
-                        </div>
+                        <flux:button size="sm" variant="primary" class="w-full justify-center" @click="connectDevice()" x-bind:loading="connecting" x-bind:disabled="!supportedUSB">
+                            Hubungkan Perangkat USB
+                        </flux:button>
                     </template>
                     <template x-if="printerSelected">
-                        <flux:button size="sm" variant="danger" class="w-full" @click="disconnectDevice()">
-                            Putuskan Hubungan Printer
-                        </flux:button>
+                        <div class="flex gap-2">
+                            <flux:button size="sm" variant="danger" class="flex-1" @click="disconnectDevice()">
+                                Putuskan
+                            </flux:button>
+                            <flux:button size="sm" variant="outline" class="flex-1" @click="detectAndReconnect()" x-bind:loading="reconnecting">
+                                Deteksi Ulang
+                            </flux:button>
+                        </div>
                     </template>
                 </div>
             </div>
 
-            <!-- Explanatory Instructions -->
+            <!-- Paired Devices List -->
+            <template x-if="!printerSelected && pairedDevices.length > 0">
+                <div class="p-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/50 space-y-2">
+                    <h4 class="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Perangkat yang Pernah Terhubung</h4>
+                    <template x-for="(device, index) in pairedDevices" :key="index">
+                        <div class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700">
+                            <div class="flex items-center gap-2 min-w-0">
+                                <flux:icon.printer class="h-4 w-4 shrink-0 text-zinc-400" />
+                                <div class="min-w-0">
+                                    <div class="text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate" x-text="device.name"></div>
+                                    <div class="text-xs text-zinc-500">
+                                        <span x-text="'ID: 0x' + Number(device.vendorId).toString(16).toUpperCase().padStart(4, '0') + ':0x' + Number(device.productId).toString(16).toUpperCase().padStart(4, '0')"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <flux:button size="xs" variant="ghost" @click="reconnectPairedDevice(device)" x-bind:loading="device.reconnecting">
+                                Hubungkan
+                            </flux:button>
+                        </div>
+                    </template>
+                </div>
+            </template>
+
+            <!-- Instructions -->
             <div class="p-3 bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 rounded-lg text-xs space-y-2 text-zinc-600 dark:text-zinc-300">
-                <h4 class="font-semibold text-blue-800 dark:text-blue-400">Petunjuk Koneksi Printer USB/Serial:</h4>
+                <h4 class="font-semibold text-blue-800 dark:text-blue-400">Petunjuk:</h4>
                 <ul class="list-disc pl-4 space-y-1.5 leading-relaxed">
-                    <li><strong>Metode Serial / COM (Sangat Direkomendasikan)</strong>: Sangat cocok untuk printer thermal USB di sistem Windows. Printer dapat langsung dideteksi tanpa perlu mengubah driver printer bawaan Windows.</li>
-                    <li><strong>Metode USB (WebUSB)</strong>: Untuk deteksi langsung USB. Jika printer tidak muncul di Windows, gunakan aplikasi <strong>Zadig</strong> untuk mengubah driver printer USB Anda menjadi <em>WinUSB</em>.</li>
-                    <li>Pastikan Anda menggunakan Google Chrome atau Microsoft Edge untuk dukungan printer USB/Serial secara penuh.</li>
+                    <li>Colokkan printer atau alat scan barcode ke port USB komputer.</li>
+                    <li>Klik <strong>"Hubungkan Perangkat USB"</strong> dan pilih perangkat dari dialog browser.</li>
+                    <li>Untuk printer thermal: Jika tidak muncul di dialog, gunakan aplikasi <strong>Zadig</strong> untuk mengubah driver menjadi <em>WinUSB</em>.</li>
+                    <li>Gunakan Google Chrome atau Microsoft Edge untuk dukungan USB penuh.</li>
                 </ul>
             </div>
 
-            <!-- Action Message / Error / Success Feedback -->
+            <!-- Messages -->
             <div x-show="errorMessage" class="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-800 text-xs flex gap-2" x-cloak>
                 <flux:icon.exclamation-circle class="h-4 w-4 shrink-0" />
                 <span x-text="errorMessage"></span>
@@ -105,44 +138,122 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('usbPrinterSettings', () => ({
-            supported: 'usb' in navigator,
-            supportedSerial: 'serial' in navigator,
+            supportedUSB: 'usb' in navigator,
             printerSelected: false,
+            printerVerified: false,
             printerName: '',
             vendorId: null,
             productId: null,
-            printerMode: '',
             connecting: false,
+            reconnecting: false,
             errorMessage: '',
             successMessage: '',
+            pairedDevices: [],
             type: '{{ $type }}',
 
             init() {
                 this.loadConfig();
+                this.scanPreviouslyPairedDevices();
                 
                 window.addEventListener('usb-printer-settings-refresh', () => {
                     this.loadConfig();
+                    this.scanPreviouslyPairedDevices();
                 });
             },
 
-            loadConfig() {
+            async loadConfig() {
                 const storedVendorId = localStorage.getItem('usb_' + this.type + '_printer_vendor_id');
                 const storedProductId = localStorage.getItem('usb_' + this.type + '_printer_product_id');
                 const storedName = localStorage.getItem('usb_' + this.type + '_printer_name');
-                const storedMode = localStorage.getItem('usb_' + this.type + '_printer_mode');
 
                 if (storedVendorId && storedProductId) {
                     this.printerSelected = true;
                     this.vendorId = storedVendorId;
                     this.productId = storedProductId;
-                    this.printerName = storedName || 'Printer USB Terdaftar';
-                    this.printerMode = storedMode || 'direct';
+                    this.printerName = storedName || 'Perangkat USB';
+                    await this.verifyDeviceConnection();
                 } else {
                     this.printerSelected = false;
+                    this.printerVerified = false;
                     this.vendorId = null;
                     this.productId = null;
                     this.printerName = '';
-                    this.printerMode = '';
+                }
+            },
+
+            async verifyDeviceConnection() {
+                try {
+                    if (this.supportedUSB) {
+                        const devices = await navigator.usb.getDevices();
+                        const found = devices.some(d => 
+                            d.vendorId === Number(this.vendorId) && 
+                            d.productId === Number(this.productId)
+                        );
+                        this.printerVerified = found;
+                    } else {
+                        this.printerVerified = false;
+                    }
+                } catch (err) {
+                    console.warn("Verifikasi perangkat gagal:", err);
+                    this.printerVerified = false;
+                }
+            },
+
+            scanPreviouslyPairedDevices() {
+                this.pairedDevices = [];
+                const prefixes = ['usb_receipt_printer_', 'usb_barcode_printer_'];
+                const seen = new Set();
+                
+                for (const prefix of prefixes) {
+                    const vid = localStorage.getItem(prefix + 'vendor_id');
+                    const pid = localStorage.getItem(prefix + 'product_id');
+                    const name = localStorage.getItem(prefix + 'name');
+                    
+                    if (vid && pid) {
+                        const key = vid + ':' + pid;
+                        if (!seen.has(key)) {
+                            seen.add(key);
+                            if (!(this.printerSelected && this.vendorId == vid && this.productId == pid)) {
+                                this.pairedDevices.push({
+                                    vendorId: vid,
+                                    productId: pid,
+                                    name: name || 'Perangkat USB',
+                                    reconnecting: false
+                                });
+                            }
+                        }
+                    }
+                }
+            },
+
+            async reconnectPairedDevice(device) {
+                device.reconnecting = true;
+                this.clearMessages();
+                
+                try {
+                    localStorage.setItem('usb_' + this.type + '_printer_vendor_id', device.vendorId);
+                    localStorage.setItem('usb_' + this.type + '_printer_product_id', device.productId);
+                    localStorage.setItem('usb_' + this.type + '_printer_name', device.name);
+                    localStorage.setItem('usb_' + this.type + '_printer_mode', 'direct');
+                    
+                    this.printerSelected = true;
+                    this.vendorId = device.vendorId;
+                    this.productId = device.productId;
+                    this.printerName = device.name;
+                    this.printerVerified = false;
+                    this.pairedDevices = [];
+                    
+                    await this.verifyDeviceConnection();
+                    
+                    if (this.printerVerified) {
+                        this.showSuccess(`Perangkat ${this.printerName} berhasil dihubungkan kembali.`);
+                    } else {
+                        this.showError(`Perangkat ${this.printerName} tidak ditemukan. Colokkan perangkat dan coba lagi.`);
+                    }
+                } catch (err) {
+                    this.showError("Gagal menghubungkan ulang: " + err.message);
+                } finally {
+                    device.reconnecting = false;
                 }
             },
 
@@ -151,61 +262,80 @@
                 this.clearMessages();
                 try {
                     const device = await navigator.usb.requestDevice({ filters: [] });
+                    
+                    await device.open();
+                    if (device.configuration === null) {
+                        await device.selectConfiguration(1);
+                    }
+                    await device.close();
+                    
                     localStorage.setItem('usb_' + this.type + '_printer_vendor_id', device.vendorId);
                     localStorage.setItem('usb_' + this.type + '_printer_product_id', device.productId);
-                    localStorage.setItem('usb_' + this.type + '_printer_name', device.productName || 'USB Printer');
+                    localStorage.setItem('usb_' + this.type + '_printer_name', device.productName || 'Perangkat USB');
                     localStorage.setItem('usb_' + this.type + '_printer_mode', 'direct');
                     
                     this.printerSelected = true;
+                    this.printerVerified = true;
                     this.vendorId = device.vendorId;
                     this.productId = device.productId;
-                    this.printerName = device.productName || 'USB Printer';
-                    this.printerMode = 'direct';
+                    this.printerName = device.productName || 'Perangkat USB';
+                    this.pairedDevices = [];
 
-                    this.showSuccess(`Printer ${this.printerName} berhasil dihubungkan.`);
+                    this.showSuccess(`${this.printerName} berhasil dihubungkan.`);
                 } catch (err) {
-                    console.error("USB Connection error:", err);
+                    console.error("Koneksi USB gagal:", err);
                     if (err.name !== 'NotFoundError') {
-                        this.showError("Gagal menghubungkan printer: " + err.message);
+                        this.showError("Gagal menghubungkan: " + err.message);
                     }
                 } finally {
                     this.connecting = false;
                 }
             },
 
-            async connectSerialDevice() {
-                this.connecting = true;
+            async detectAndReconnect() {
+                this.reconnecting = true;
                 this.clearMessages();
                 try {
-                    if (!('serial' in navigator)) {
-                        throw new Error("Browser Anda tidak mendukung Web Serial.");
+                    if (this.supportedUSB) {
+                        const devices = await navigator.usb.getDevices();
+                        const found = devices.find(d => 
+                            d.vendorId === Number(this.vendorId) && 
+                            d.productId === Number(this.productId)
+                        );
+                        
+                        if (found) {
+                            await found.open();
+                            if (found.configuration === null) {
+                                await found.selectConfiguration(1);
+                            }
+                            await found.close();
+                            this.printerVerified = true;
+                            this.showSuccess(`${this.printerName} terdeteksi dan siap digunakan.`);
+                        } else {
+                            const newDevice = await navigator.usb.requestDevice({
+                                filters: [{ 
+                                    vendorId: Number(this.vendorId), 
+                                    productId: Number(this.productId) 
+                                }]
+                            });
+                            await newDevice.open();
+                            if (newDevice.configuration === null) {
+                                await newDevice.selectConfiguration(1);
+                            }
+                            await newDevice.close();
+                            this.printerVerified = true;
+                            this.showSuccess(`${this.printerName} terdeteksi dan siap digunakan.`);
+                        }
+                    } else {
+                        this.showError("WebUSB tidak didukung oleh browser ini.");
                     }
-                    const port = await navigator.serial.requestPort();
-                    const info = port.getInfo();
-                    
-                    // Web Serial products might have USB vendor/product IDs or defaults
-                    const vendorId = info.usbVendorId || 9999;
-                    const productId = info.usbProductId || 9999;
-                    
-                    localStorage.setItem('usb_' + this.type + '_printer_vendor_id', vendorId);
-                    localStorage.setItem('usb_' + this.type + '_printer_product_id', productId);
-                    localStorage.setItem('usb_' + this.type + '_printer_name', 'Serial/COM Port Printer');
-                    localStorage.setItem('usb_' + this.type + '_printer_mode', 'serial');
-                    
-                    this.printerSelected = true;
-                    this.vendorId = vendorId;
-                    this.productId = productId;
-                    this.printerName = 'Serial/COM Port Printer';
-                    this.printerMode = 'serial';
-
-                    this.showSuccess("Printer Serial/COM berhasil dihubungkan.");
                 } catch (err) {
-                    console.error("Serial connection error:", err);
+                    console.error("Deteksi ulang gagal:", err);
                     if (err.name !== 'NotFoundError') {
-                        this.showError("Gagal menghubungkan printer serial: " + err.message);
+                        this.showError("Deteksi ulang gagal: " + err.message);
                     }
                 } finally {
-                    this.connecting = false;
+                    this.reconnecting = false;
                 }
             },
 
@@ -216,12 +346,12 @@
                 localStorage.removeItem('usb_' + this.type + '_printer_mode');
                 
                 this.printerSelected = false;
+                this.printerVerified = false;
                 this.vendorId = null;
                 this.productId = null;
                 this.printerName = '';
-                this.printerMode = '';
                 
-                this.showSuccess("Koneksi printer berhasil diputuskan.");
+                this.showSuccess("Koneksi perangkat berhasil diputuskan.");
             },
 
             showError(msg) {
@@ -294,32 +424,6 @@
         } catch (error) {
             console.error("WebUSB execution failed:", error);
             throw new Error(error.message || "Pastikan printer menyala dan terhubung melalui USB.");
-        }
-    }
-
-    // Direct Serial/COM printing core logic
-    async function writeToSerialPrinter(vendorId, productId, dataArray) {
-        let port;
-        try {
-            const ports = await navigator.serial.getPorts();
-            // Try to find by vendor/product info if available
-            port = ports.find(p => {
-                const info = p.getInfo();
-                return info.usbVendorId === Number(vendorId) && info.usbProductId === Number(productId);
-            });
-            
-            if (!port) {
-                port = await navigator.serial.requestPort();
-            }
-            
-            await port.open({ baudRate: 9600 });
-            const writer = port.writable.getWriter();
-            await writer.write(dataArray);
-            writer.releaseLock();
-            await port.close();
-        } catch (error) {
-            console.error("WebSerial execution failed:", error);
-            throw new Error(error.message || "Pastikan printer serial menyala dan terhubung.");
         }
     }
 
@@ -396,32 +500,6 @@
         return encoder.encode(tspl);
     }
 
-    // ESC/POS encoder for Product Barcode (Thermal Receipt)
-    function encodeESCPOSTransactionBarcode(productName, barcodeValue) {
-        const encoder = new TextEncoder();
-        let bytes = [];
-        const add = (arr) => bytes.push(...arr);
-        const addStr = (str) => add(encoder.encode(str));
-        
-        add([0x1B, 0x40]); // Init
-        add([0x1B, 0x61, 0x01]); // Align Center
-        
-        add([0x1B, 0x45, 0x01]);
-        addStr(`${productName}\n\n`);
-        add([0x1B, 0x45, 0x00]);
-        
-        add([0x1D, 0x6B, 0x49]); 
-        let len = barcodeValue.length;
-        add([len + 2]); 
-        add([0x7B, 0x42]); 
-        addStr(barcodeValue);
-        
-        addStr("\n\n\n\n");
-        add([0x1D, 0x56, 0x42, 0x00]); // Feed & Cut
-        
-        return new Uint8Array(bytes);
-    }
-
     // Global APIs triggered by pages
     window.showUsbPrinterSettings = function() {
         window.dispatchEvent(new CustomEvent('usb-printer-settings-refresh'));
@@ -430,34 +508,24 @@
     window.printReceiptUSB = async function(sale) {
         const vendorId = localStorage.getItem('usb_receipt_printer_vendor_id');
         const productId = localStorage.getItem('usb_receipt_printer_product_id');
-        const mode = localStorage.getItem('usb_receipt_printer_mode') || 'direct';
         
         if (!vendorId || !productId) {
             throw new Error("Printer struk belum dihubungkan. Silakan atur terlebih dahulu.");
         }
 
         const bytes = encodeESCPOSTransaction(sale);
-        if (mode === 'serial') {
-            await writeToSerialPrinter(vendorId, productId, bytes);
-        } else {
-            await writeToUSBPrinter(vendorId, productId, bytes);
-        }
+        await writeToUSBPrinter(vendorId, productId, bytes);
     };
 
     window.printBarcodeUSB = async function(productName, barcodeValue) {
         const vendorId = localStorage.getItem('usb_barcode_printer_vendor_id');
         const productId = localStorage.getItem('usb_barcode_printer_product_id');
-        const mode = localStorage.getItem('usb_barcode_printer_mode') || 'direct';
         
         if (!vendorId || !productId) {
             throw new Error("Printer barcode belum dihubungkan. Silakan atur terlebih dahulu.");
         }
 
         const bytes = encodeTSPLBarcode(productName, barcodeValue);
-        if (mode === 'serial') {
-            await writeToSerialPrinter(vendorId, productId, bytes);
-        } else {
-            await writeToUSBPrinter(vendorId, productId, bytes);
-        }
+        await writeToUSBPrinter(vendorId, productId, bytes);
     };
 </script>
