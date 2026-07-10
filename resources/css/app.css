@@ -35,11 +35,11 @@
         letter-spacing: -0.02em;
     }
     
-    p, span, div {
+    p {
         color: var(--text-secondary);
     }
-    
-    label, small {
+
+    small {
         color: var(--text-muted);
     }
 

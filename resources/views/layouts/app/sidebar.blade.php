@@ -16,10 +16,10 @@
                 --sidebar-hover-bg: rgba(255, 255, 255, 0.1);
                 --sidebar-active-bg: rgba(255, 255, 255, 0.2);
                 
-                /* Text colors */
-                --text-primary: #1f2937;
-                --text-secondary: #6b7280;
-                --text-muted: #9ca3af;
+                /* Text colors — enhanced contrast for readability */
+                --text-primary: #111827;
+                --text-secondary: #4b5563;
+                --text-muted: #6b7280;
                 
                 /* Border colors */
                 --border-light: #e5e7eb;
