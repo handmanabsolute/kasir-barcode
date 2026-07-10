@@ -1,58 +1,66 @@
 @import 'tailwindcss';
 @import '../../vendor/livewire/flux/dist/flux.css';
+@import './custom-theme.css';
 
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
 @source '../../vendor/livewire/flux/stubs/**/*.blade.php';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
-    --color-zinc-50: #fafafa;
-    --color-zinc-100: #f5f5f5;
-    --color-zinc-200: #e5e5e5;
-    --color-zinc-300: #d4d4d4;
-    --color-zinc-400: #a3a3a3;
-    --color-zinc-500: #737373;
-    --color-zinc-600: #525252;
-    --color-zinc-700: #404040;
-    --color-zinc-800: #262626;
-    --color-zinc-900: #171717;
-    --color-zinc-950: #0a0a0a;
-
-    --color-accent: var(--color-neutral-800);
-    --color-accent-content: var(--color-neutral-800);
-    --color-accent-foreground: var(--color-white);
-}
-
-@layer theme {
-    .dark {
-        --color-accent: var(--color-white);
-        --color-accent-content: var(--color-white);
-        --color-accent-foreground: var(--color-neutral-800);
-    }
+    --color-accent: #2563eb;
+    --color-accent-content: #1e3a8a;
+    --color-accent-foreground: #ffffff;
 }
 
 @layer base {
-
     *,
     ::after,
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-gray-200, currentColor);
+        border-color: var(--border-light);
+    }
+    
+    body {
+        color: var(--text-primary);
+        background: var(--main-bg);
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        color: var(--text-primary);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+    }
+    
+    p, span, div {
+        color: var(--text-secondary);
+    }
+    
+    label, small {
+        color: var(--text-muted);
+    }
+
+    a {
+        color: var(--brand-accent);
+        text-decoration: none;
+        transition: color var(--transition-fast);
+    }
+
+    a:hover {
+        color: var(--brand-primary);
     }
 }
 
+/* ── Flux Field Overrides ── */
 [data-flux-field]:not(ui-radio, ui-checkbox) {
     @apply grid gap-2;
 }
 
 [data-flux-label] {
-    @apply  !mb-0 !leading-tight;
+    @apply !mb-0 !leading-tight;
 }
 
 input:focus[data-flux-control],
@@ -61,7 +69,7 @@ select:focus[data-flux-control] {
     @apply outline-hidden ring-2 ring-accent ring-offset-2 ring-offset-accent-foreground;
 }
 
-/* Kasir auth */
+/* ── Kasir Auth Styles (100% custom) ── */
 .kasir-auth {
     min-height: 100vh;
     background: linear-gradient(160deg, #0b3d91 0%, #1565c0 45%, #1e88e5 100%);
@@ -129,6 +137,7 @@ select:focus[data-flux-control] {
     font-size: 0.875rem;
     outline: none;
     transition: border-color 0.2s, background-color 0.2s;
+    border-radius: 0;
 }
 
 .kasir-input::placeholder {
@@ -150,9 +159,47 @@ select:focus[data-flux-control] {
     font-weight: 700;
     cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
+    border-radius: 0;
 }
 
 .kasir-button:hover {
     transform: translateY(-1px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ── Auth Custom Checkbox (Remember Me) ── */
+.custom-checkbox-auth {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 1rem;
+    height: 1rem;
+    border: 1.5px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.custom-checkbox-auth:checked {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: #fff;
+}
+
+.custom-checkbox-auth:checked::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    width: 4px;
+    height: 8px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.custom-checkbox-auth:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }

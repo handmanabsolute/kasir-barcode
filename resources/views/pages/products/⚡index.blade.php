@@ -139,7 +139,7 @@ new #[Title('Produk')] class extends Component {
 
 
     <div class="grid gap-6 xl:grid-cols-[380px_minmax(0,1fr)]">
-        <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
+        <div class="rounded-xl border border-neutral-200 bg-white p-6">
             <flux:heading size="lg">{{ $editingId ? 'Edit Produk' : 'Tambah Produk' }}</flux:heading>
 
             <form wire:submit="save" class="mt-4 flex flex-col gap-4">
@@ -153,7 +153,7 @@ new #[Title('Produk')] class extends Component {
                         required
                         autofocus
                     />
-                    <flux:text class="mt-1 text-xs text-zinc-500">Fokuskan field ini, lalu scan dengan alat barcode USB.</flux:text>
+                    <flux:text class="mt-1 text-xs text-zinc-600">Fokuskan field ini, lalu scan dengan alat barcode USB.</flux:text>
                 </div>
 
                 <flux:select wire:model="category_id" label="Kategori" placeholder="Pilih kategori">
@@ -170,7 +170,7 @@ new #[Title('Produk')] class extends Component {
                 </div>
 
                 @if ($cost_price > 0 || $sell_price > 0)
-                    <flux:text class="text-sm text-zinc-500">
+                    <flux:text class="text-sm text-zinc-600">
                         Estimasi laba per unit: {{ Money::format(max(0, $sell_price - $cost_price)) }}
                     </flux:text>
                 @endif
@@ -187,7 +187,7 @@ new #[Title('Produk')] class extends Component {
             </form>
         </div>
 
-        <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 pb-4 dark:border-neutral-700 dark:bg-zinc-900">
+        <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 pb-4">
             <flux:table>
                 <flux:table.columns>
                     <flux:table.column>Produk</flux:table.column>
@@ -210,7 +210,7 @@ new #[Title('Produk')] class extends Component {
                             <flux:table.cell>{{ $product->stock }}</flux:table.cell>
                             <flux:table.cell>
                                 <div>{{ Money::format($product->sell_price) }}</div>
-                                <flux:text class="text-xs">Modal {{ Money::format($product->cost_price) }}</flux:text>
+                                <flux:text class="text-xs" >Modal {{ Money::format($product->cost_price) }}</flux:text>
                             </flux:table.cell>
                             <flux:table.cell>{{ Money::format($product->profitMargin()) }}</flux:table.cell>
                             <flux:table.cell>
@@ -229,7 +229,7 @@ new #[Title('Produk')] class extends Component {
                 </flux:table.rows>
             </flux:table>
 
-            <div class="mt-6 border-t border-neutral-200 pt-4 dark:border-neutral-700">
+            <div class="mt-6 border-t border-neutral-200 pt-4">
                 {{ $products->links() }}
             </div>
         </div>

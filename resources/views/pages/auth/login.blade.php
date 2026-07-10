@@ -55,17 +55,28 @@
                 />
             </div>
 
+            <div class="flex items-center justify-between">
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input
+                        type="checkbox"
+                        name="remember"
+                        id="remember"
+                        class="custom-checkbox-auth"
+                        aria-label="Ingat saya"
+                    />
+                    <span class="text-sm text-white/85 hover:text-white transition-colors">Ingat saya</span>
+                </label>
+
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="text-sm text-white/80 transition hover:text-white">
+                        Lupa Password?
+                    </a>
+                @endif
+            </div>
+
             <button type="submit" class="kasir-button" data-test="login-button">
                 Login
             </button>
-
-            @if (Route::has('password.request'))
-                <div class="text-end">
-                    <a href="{{ route('password.request') }}" class="text-sm text-white/90 transition hover:text-white">
-                        Lupa Password?
-                    </a>
-                </div>
-            @endif
         </form>
     </div>
 </x-layouts::auth>

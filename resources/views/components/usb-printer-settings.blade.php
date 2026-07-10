@@ -4,7 +4,7 @@
     <div x-data="usbPrinterSettings()" class="space-y-6">
         <div>
             <flux:heading size="lg" class="flex items-center gap-2">
-                <flux:icon.printer class="h-6 w-6 text-zinc-600 dark:text-zinc-400" />
+                <flux:icon.printer class="h-6 w-6 text-zinc-600" />
                 <span x-text="type === 'barcode' ? 'Pengaturan Printer Barcode' : 'Pengaturan Printer Struk'"></span>
             </flux:heading>
             <flux:text class="mt-1" x-text="type === 'barcode' ? 'Hubungkan printer barcode atau alat scan USB untuk mencetak label.' : 'Hubungkan printer struk thermal USB untuk mencetak struk belanja.'"></flux:text>
@@ -22,16 +22,16 @@
 
         <div class="space-y-4">
             <!-- Connection Status -->
-            <div class="p-4 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 space-y-3">
+            <div class="p-4 rounded-xl border border-zinc-200 bg-zinc-50 space-y-3">
                 <div class="flex items-center justify-between">
-                    <span class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Status Perangkat:</span>
+                    <span class="text-sm font-medium text-zinc-700">Status Perangkat:</span>
                     <template x-if="printerSelected">
-                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-400">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-emerald-100 text-emerald-800">
                             <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Terhubung
                         </span>
                     </template>
                     <template x-if="!printerSelected">
-                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-zinc-100 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-300">
+                        <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-medium bg-zinc-100 text-zinc-800">
                             <span class="h-1.5 w-1.5 rounded-full bg-zinc-400"></span> Belum Terhubung
                         </span>
                     </template>
@@ -40,18 +40,18 @@
                 <div class="text-sm">
                     <template x-if="printerSelected">
                         <div class="space-y-1.5">
-                            <div class="font-medium text-zinc-800 dark:text-zinc-200" x-text="printerName"></div>
-                            <div class="text-xs text-zinc-500 dark:text-zinc-400">
-                                ID: <span class="font-mono text-blue-600 dark:text-blue-400">0x<span x-text="Number(vendorId).toString(16).toUpperCase().padStart(4, '0')"></span>:0x<span x-text="Number(productId).toString(16).toUpperCase().padStart(4, '0')"></span></span>
+                            <div class="font-medium text-zinc-800" x-text="printerName"></div>
+                            <div class="text-xs text-zinc-600">
+                                ID: <span class="font-mono text-blue-600">0x<span x-text="Number(vendorId).toString(16).toUpperCase().padStart(4, '0')"></span>:0x<span x-text="Number(productId).toString(16).toUpperCase().padStart(4, '0')"></span></span>
                             </div>
                             <template x-if="printerVerified">
-                                <div class="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 mt-1">
+                                <div class="flex items-center gap-1 text-xs text-emerald-600 mt-1">
                                     <flux:icon.check-circle class="h-3 w-3" />
                                     <span>Perangkat siap digunakan</span>
                                 </div>
                             </template>
                             <template x-if="!printerVerified && printerSelected">
-                                <div class="flex items-center gap-1 text-xs text-amber-600 dark:text-amber-400 mt-1">
+                                <div class="flex items-center gap-1 text-xs text-amber-600 mt-1">
                                     <flux:icon.exclamation-triangle class="h-3 w-3" />
                                     <span>Perangkat tersimpan namun tidak terdeteksi secara fisik. Colokkan perangkat dan klik "Deteksi Ulang".</span>
                                 </div>
@@ -59,11 +59,11 @@
                         </div>
                     </template>
                     <template x-if="!printerSelected">
-                        <span class="text-zinc-500 dark:text-zinc-400 text-xs">Klik tombol di bawah untuk menghubungkan printer atau alat scan USB.</span>
+                        <span class="text-zinc-600 text-xs">Klik tombol di bawah untuk menghubungkan printer atau alat scan USB.</span>
                     </template>
                 </div>
 
-                <div class="flex flex-col gap-2 pt-2 border-t border-zinc-200 dark:border-zinc-700">
+                <div class="flex flex-col gap-2 pt-2 border-t border-zinc-200">
                     <template x-if="!printerSelected">
                         <div class="flex gap-2">
                             <flux:button size="sm" variant="primary" class="flex-1 justify-center" @click="connectDevice()" x-bind:loading="connecting" x-bind:disabled="!supportedUSB">
@@ -90,21 +90,21 @@
 
             <!-- Available Devices (auto-detected via WebUSB) -->
             <template x-if="!printerSelected && availableDevices.length > 0">
-                <div class="p-3 rounded-xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20 space-y-2">
+                <div class="p-3 rounded-xl border border-emerald-200 bg-emerald-50/50 space-y-2">
                     <div class="flex items-center justify-between">
-                        <h4 class="text-xs font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <h4 class="text-xs font-semibold text-emerald-700 uppercase tracking-wider flex items-center gap-1.5">
                             <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                             Perangkat Terdeteksi
                         </h4>
-                        <span class="text-[10px] text-emerald-600 dark:text-emerald-500 font-medium" x-text="availableDevices.length + ' perangkat'"></span>
+                        <span class="text-[10px] text-emerald-600 font-medium" x-text="availableDevices.length + ' perangkat'"></span>
                     </div>
                     <template x-for="(device, index) in availableDevices" :key="index">
-                        <div class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-zinc-800 border border-emerald-100 dark:border-emerald-800">
+                        <div class="flex items-center justify-between p-2 rounded-lg bg-white border border-emerald-100">
                             <div class="flex items-center gap-2 min-w-0">
                                 <flux:icon.printer class="h-4 w-4 shrink-0 text-emerald-500" />
                                 <div class="min-w-0">
-                                    <div class="text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate" x-text="getDeviceDisplayName(device)"></div>
-                                    <div class="text-xs text-zinc-500">
+                                    <div class="text-sm font-medium text-zinc-800 truncate" x-text="getDeviceDisplayName(device)"></div>
+                                    <div class="text-xs text-zinc-600">
                                         <span x-text="'ID: 0x' + Number(device.vendorId).toString(16).toUpperCase().padStart(4, '0') + ':0x' + Number(device.productId).toString(16).toUpperCase().padStart(4, '0')"></span>
                                     </div>
                                 </div>
@@ -119,15 +119,15 @@
 
             <!-- Paired Devices List -->
             <template x-if="!printerSelected && pairedDevices.length > 0">
-                <div class="p-3 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50/50 dark:bg-zinc-800/50 space-y-2">
-                    <h4 class="text-xs font-semibold text-zinc-600 dark:text-zinc-400 uppercase tracking-wider">Perangkat yang Pernah Terhubung</h4>
+                <div class="p-3 rounded-xl border border-zinc-200 bg-zinc-50/50 space-y-2">
+                    <h4 class="text-xs font-semibold text-zinc-700 uppercase tracking-wider">Perangkat yang Pernah Terhubung</h4>
                     <template x-for="(device, index) in pairedDevices" :key="index">
-                        <div class="flex items-center justify-between p-2 rounded-lg bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700">
+                        <div class="flex items-center justify-between p-2 rounded-lg bg-white border border-zinc-100">
                             <div class="flex items-center gap-2 min-w-0">
                                 <flux:icon.printer class="h-4 w-4 shrink-0 text-zinc-400" />
                                 <div class="min-w-0">
-                                    <div class="text-sm font-medium text-zinc-800 dark:text-zinc-200 truncate" x-text="device.name"></div>
-                                    <div class="text-xs text-zinc-500">
+                                    <div class="text-sm font-medium text-zinc-800 truncate" x-text="device.name"></div>
+                                    <div class="text-xs text-zinc-600">
                                         <span x-text="'ID: 0x' + Number(device.vendorId).toString(16).toUpperCase().padStart(4, '0') + ':0x' + Number(device.productId).toString(16).toUpperCase().padStart(4, '0')"></span>
                                     </div>
                                 </div>
@@ -141,8 +141,8 @@
             </template>
 
             <!-- Instructions -->
-            <div class="p-3 bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900 rounded-lg text-xs space-y-2 text-zinc-600 dark:text-zinc-300">
-                <h4 class="font-semibold text-blue-800 dark:text-blue-400">Petunjuk:</h4>
+            <div class="p-3 bg-blue-50/50 border border-blue-100 rounded-lg text-xs space-y-2 text-zinc-700">
+                <h4 class="font-semibold text-blue-800">Petunjuk:</h4>
                 <ul class="list-disc pl-4 space-y-1.5 leading-relaxed">
                     <li>Colokkan printer atau alat scan barcode ke port USB komputer.</li>
                     <li>Klik <strong>"Scan Perangkat"</strong> untuk mendeteksi perangkat USB yang sudah diizinkan sebelumnya.</li>
@@ -164,7 +164,7 @@
             </div>
         </div>
 
-        <div class="flex justify-end pt-4 border-t border-zinc-200 dark:border-zinc-700">
+        <div class="flex justify-end pt-4 border-t border-zinc-200">
             <flux:modal.close>
                 <flux:button variant="ghost">Tutup</flux:button>
             </flux:modal.close>
@@ -194,12 +194,17 @@
                 this.loadConfig();
                 this.scanPreviouslyPairedDevices();
                 this.scanAvailableDevices();
+                
+                // Auto-detect and connect to printer on page load
+                this.autoConnectPrinter();
 
                 // Listen for USB device connect/disconnect events (real-time detection)
                 if (this.supportedUSB) {
                     navigator.usb.addEventListener('connect', (event) => {
                         console.log('USB device connected:', event.device);
                         this.scanAvailableDevices();
+                        // Auto-connect when new device plugged in
+                        setTimeout(() => this.autoConnectPrinter(), 500);
                     });
                     navigator.usb.addEventListener('disconnect', (event) => {
                         console.log('USB device disconnected:', event.device);
@@ -545,6 +550,78 @@
             clearMessages() {
                 this.errorMessage = '';
                 this.successMessage = '';
+            },
+            
+            async autoConnectPrinter() {
+                // Only auto-connect if no printer is currently selected
+                if (this.printerSelected) return;
+                
+                if (!this.supportedUSB) return;
+                
+                try {
+                    const devices = await navigator.usb.getDevices();
+                    
+                    if (devices.length === 0) return;
+                    
+                    // Filter devices by type (receipt or barcode printer)
+                    const printerDevices = devices.filter(d => {
+                        const vid = Number(d.vendorId).toString(16).toUpperCase().padStart(4, '0');
+                        const pid = Number(d.productId).toString(16).toUpperCase().padStart(4, '0');
+                        const key = '0x' + vid + ':0x' + pid;
+                        const name = KNOWN_USB_DEVICES[key] || '';
+                        
+                        if (this.type === 'receipt') {
+                            // Look for receipt/thermal printers
+                            return name.toLowerCase().includes('receipt') || 
+                                   name.toLowerCase().includes('thermal') || 
+                                   name.toLowerCase().includes('printer') ||
+                                   d.vendorId === 0x04b8 || // Epson
+                                   d.vendorId === 0x0519 || // Star
+                                   d.vendorId === 0x1fc9 || // Xprinter
+                                   d.vendorId === 0x0416 || // Generic thermal
+                                   d.vendorId === 0x1606;   // Bixolon
+                        } else if (this.type === 'barcode') {
+                            // Look for barcode scanners
+                            return name.toLowerCase().includes('barcode') || 
+                                   name.toLowerCase().includes('scanner') ||
+                                   d.vendorId === 0x0c2e || // Honeywell
+                                   d.vendorId === 0x05f9 || // Zebra/Symbol
+                                   d.vendorId === 0x0681 || // Wasp
+                                   d.vendorId === 0x1915 || // Newland
+                                   d.vendorId === 0x11f5;   // Newland
+                        }
+                        return false;
+                    });
+                    
+                    if (printerDevices.length === 0) return;
+                    
+                    // Auto-connect to the first matching device
+                    const device = printerDevices[0];
+                    
+                    console.log(`Auto-connecting to ${this.type} printer:`, device);
+                    
+                    await device.open();
+                    if (device.configuration === null) {
+                        await device.selectConfiguration(1);
+                    }
+                    await device.close();
+                    
+                    localStorage.setItem('usb_' + this.type + '_printer_vendor_id', device.vendorId);
+                    localStorage.setItem('usb_' + this.type + '_printer_product_id', device.productId);
+                    localStorage.setItem('usb_' + this.type + '_printer_name', this.getBestDeviceName(device));
+                    localStorage.setItem('usb_' + this.type + '_printer_mode', 'direct');
+                    
+                    this.printerSelected = true;
+                    this.printerVerified = true;
+                    this.vendorId = device.vendorId;
+                    this.productId = device.productId;
+                    this.printerName = this.getBestDeviceName(device);
+                    
+                    console.log(`✓ ${this.printerName} terdeteksi dan terhubung otomatis.`);
+                    
+                } catch (err) {
+                    console.log('Auto-connect gagal (ini normal jika belum ada izin):', err.message);
+                }
             }
         }));
     });

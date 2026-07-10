@@ -172,7 +172,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
     <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
             <flux:heading size="xl">Transaksi Kasir</flux:heading>
-            <flux:text class="mt-1">Scan barcode produk untuk menambah ke keranjang, lalu proses pembayaran.</flux:text>
+            <flux:text class="mt-1" >Scan barcode produk untuk menambah ke keranjang, lalu proses pembayaran.</flux:text>
         </div>
         <flux:modal.trigger name="usb-printer-modal">
             <flux:button icon="printer" onclick="window.showUsbPrinterSettings()" tooltip="Pengaturan Printer USB">
@@ -184,7 +184,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
 
     <div class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <div class="flex flex-col gap-4">
-            <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
+            <div class="rounded-xl border border-neutral-200 bg-white p-6">
                 <form wire:submit="addByBarcode" class="flex flex-col gap-3 sm:flex-row">
                     <div class="flex-1">
                         <flux:input
@@ -200,7 +200,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
                 </form>
             </div>
 
-            <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
+            <div class="overflow-hidden rounded-xl border border-neutral-200 bg-white p-6">
                 <flux:table>
                     <flux:table.columns>
                         <flux:table.column>Produk</flux:table.column>
@@ -239,7 +239,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
             </div>
         </div>
 
-        <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
+        <div class="rounded-xl border border-neutral-200 bg-white p-6">
             <flux:heading size="lg">Ringkasan</flux:heading>
 
             <div class="mt-4 space-y-3">
@@ -249,7 +249,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
                 </div>
                 <div class="flex items-center justify-between">
                     <flux:text>Estimasi laba</flux:text>
-                    <flux:heading class="text-emerald-600 dark:text-emerald-400">{{ Money::format($this->cartProfitEstimate()) }}</flux:heading>
+                    <flux:heading class="text-emerald-600">{{ Money::format($this->cartProfitEstimate()) }}</flux:heading>
                 </div>
             </div>
 
@@ -293,7 +293,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
             </div>
 
             <!-- Receipt Preview Container -->
-            <div id="receipt-print-area" class="border border-neutral-200 p-4 rounded-lg bg-neutral-50 dark:bg-neutral-800 text-black dark:text-white font-mono text-sm leading-relaxed max-h-[300px] overflow-y-auto">
+            <div id="receipt-print-area" class="border border-neutral-200 p-4 rounded-lg bg-neutral-50 text-black font-mono text-sm leading-relaxed max-h-[300px] overflow-y-auto">
                 <!-- Receipt Content -->
                 <div class="text-center font-bold text-base mb-2">KASIR BARCODE</div>
                 <div class="text-center text-xs mb-3 border-b border-dashed border-neutral-300 pb-2">
@@ -307,7 +307,7 @@ new #[Title('Transaksi Kasir')] class extends Component {
                         <tr>
                             <td colspan="2" class="font-bold">{{ $item['product_name'] }}</td>
                         </tr>
-                        <tr class="text-neutral-600 dark:text-neutral-400">
+                        <tr class="text-neutral-700">
                             <td class="pb-2">{{ $item['quantity'] }} x {{ Money::format($item['unit_price']) }}</td>
                             <td class="text-right pb-2">{{ Money::format($item['line_total']) }}</td>
                         </tr>
@@ -452,5 +452,6 @@ new #[Title('Transaksi Kasir')] class extends Component {
     }
 </script>
 
+<x-usb-barcode-scanner />
 <x-usb-printer-settings type="receipt" />
 </div>

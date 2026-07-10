@@ -1,38 +1,41 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="light">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.head')
-        <script>
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-            document.documentElement.style.colorScheme = 'light';
-        </script>
         <style>
             /* ============================================
-               SIDEBAR MODERN — Fixed light theme
+               CUSTOM KASIR THEME — Modern & Clean
                ============================================ */
+            :root {
+                /* Main colors */
+                --main-bg: #f5f7fa;
+                --content-bg: #ffffff;
+                --sidebar-bg: linear-gradient(180deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+                --sidebar-text: #e0e7ff;
+                --sidebar-text-active: #ffffff;
+                --sidebar-hover-bg: rgba(255, 255, 255, 0.1);
+                --sidebar-active-bg: rgba(255, 255, 255, 0.2);
+                
+                /* Text colors */
+                --text-primary: #1f2937;
+                --text-secondary: #6b7280;
+                --text-muted: #9ca3af;
+                
+                /* Border colors */
+                --border-light: #e5e7eb;
+                --border-medium: #d1d5db;
+                
+                /* Accent colors */
+                --accent-blue: #3b82f6;
+                --accent-green: #10b981;
+                --accent-red: #ef4444;
+                --accent-orange: #f59e0b;
+            }
+            
             .sidebar-modern {
-                --sidebar-bg: #f8f9fc;
-                --sidebar-border: #e2e5ed;
-                --sidebar-text: #4a5068;
-                --sidebar-text-muted: #8b92a8;
-                --sidebar-hover-bg: #eef0f6;
-                --sidebar-hover-text: #1a1d2e;
-                --sidebar-active-bg: #e8edff;
-                --sidebar-active-text: #3b5de7;
-                --sidebar-active-border: #3b5de7;
-                --sidebar-brand-bg: #ffffff;
-                --sidebar-brand-shadow: 0 1px 3px rgba(0,0,0,0.06);
-                --sidebar-divider: #e2e5ed;
-                --sidebar-header-bg: #ffffff;
-                --sidebar-profile-bg: #ffffff;
-                --sidebar-profile-border: #e2e5ed;
-                --sidebar-profile-shadow: 0 1px 2px rgba(0,0,0,0.04);
-                --sidebar-badge-bg: #3b5de7;
-                --sidebar-badge-text: #ffffff;
-                --sidebar-logout-text: #dc2626;
-                --sidebar-logout-hover: #fef2f2;
-                --sidebar-logout-border: #fecaca;
+                background: var(--sidebar-bg);
+                border-right: none;
+                box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
             }
 
             .sidebar-modern {
@@ -42,10 +45,10 @@
 
             /* ── Header / Brand ── */
             .sidebar-modern .sidebar-header-area {
-                background: var(--sidebar-header-bg);
-                border-bottom: 1px solid var(--sidebar-divider);
-                padding: 18px 20px 14px;
-                margin: 0 0 8px;
+                background: rgba(255, 255, 255, 0.05);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                padding: 20px;
+                margin: 0;
             }
 
             .sidebar-modern .sidebar-brand {
@@ -56,40 +59,41 @@
             }
 
             .sidebar-modern .sidebar-brand-icon {
-                width: 38px;
-                height: 38px;
-                background: linear-gradient(135deg, #3b5de7, #6d8cff);
-                border-radius: 10px;
+                width: 42px;
+                height: 42px;
+                background: rgba(255, 255, 255, 0.15);
+                border-radius: 12px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 2px 8px rgba(59, 93, 231, 0.3);
+                backdrop-filter: blur(10px);
                 flex-shrink: 0;
+                border: 1px solid rgba(255, 255, 255, 0.2);
             }
 
             .sidebar-modern .sidebar-brand-icon img {
-                width: 20px;
-                height: 20px;
+                width: 22px;
+                height: 22px;
                 filter: brightness(0) invert(1);
             }
 
             .sidebar-modern .sidebar-brand-text {
                 display: flex;
                 flex-direction: column;
-                line-height: 1.2;
+                line-height: 1.3;
             }
 
             .sidebar-modern .sidebar-brand-name {
-                font-size: 15px;
+                font-size: 16px;
                 font-weight: 700;
-                color: var(--sidebar-hover-text);
+                color: #ffffff;
                 letter-spacing: -0.3px;
             }
 
             .sidebar-modern .sidebar-brand-sub {
-                font-size: 10px;
+                font-size: 11px;
                 font-weight: 500;
-                color: var(--sidebar-text-muted);
+                color: rgba(255, 255, 255, 0.7);
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }
@@ -99,9 +103,9 @@
                 font-size: 10px;
                 font-weight: 600;
                 text-transform: uppercase;
-                letter-spacing: 0.8px;
-                color: var(--sidebar-text-muted);
-                padding: 16px 20px 6px;
+                letter-spacing: 1px;
+                color: rgba(255, 255, 255, 0.5);
+                padding: 20px 20px 8px;
             }
 
             /* ── Nav items ── */
@@ -109,14 +113,14 @@
                 display: flex;
                 align-items: center;
                 gap: 12px;
-                padding: 10px 20px;
-                margin: 2px 10px;
-                border-radius: 8px;
+                padding: 12px 20px;
+                margin: 3px 12px;
+                border-radius: 10px;
                 color: var(--sidebar-text);
                 text-decoration: none;
-                font-size: 13.5px;
+                font-size: 14px;
                 font-weight: 500;
-                transition: all 0.15s ease;
+                transition: all 0.2s ease;
                 position: relative;
                 border: none;
                 background: transparent;
@@ -126,31 +130,29 @@
 
             .sidebar-modern .sidebar-nav-item:hover {
                 background: var(--sidebar-hover-bg);
-                color: var(--sidebar-hover-text);
-            }
-
-            .sidebar-modern .sidebar-nav-item:active {
-                transform: scale(0.98);
+                color: var(--sidebar-text-active);
+                transform: translateX(3px);
             }
 
             .sidebar-modern .sidebar-nav-item.current,
             .sidebar-modern .sidebar-nav-item.active {
                 background: var(--sidebar-active-bg);
-                color: var(--sidebar-active-text);
+                color: var(--sidebar-text-active);
                 font-weight: 600;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
 
             .sidebar-modern .sidebar-nav-item.current::before,
             .sidebar-modern .sidebar-nav-item.active::before {
                 content: '';
                 position: absolute;
-                left: -10px;
+                left: -12px;
                 top: 50%;
                 transform: translateY(-50%);
-                width: 3px;
-                height: 20px;
-                background: var(--sidebar-active-border);
-                border-radius: 0 3px 3px 0;
+                width: 4px;
+                height: 24px;
+                background: #ffffff;
+                border-radius: 0 4px 4px 0;
             }
 
             .sidebar-modern .sidebar-nav-icon {
@@ -169,72 +171,75 @@
 
             /* ── Profile ── */
             .sidebar-modern .sidebar-profile-area {
-                margin: 8px 10px 4px;
-                padding: 10px 12px;
-                background: var(--sidebar-profile-bg);
-                border: 1px solid var(--sidebar-profile-border);
-                border-radius: 10px;
-                box-shadow: var(--sidebar-profile-shadow);
-                transition: all 0.15s ease;
+                margin: 12px;
+                padding: 12px;
+                background: rgba(255, 255, 255, 0.1);
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 12px;
+                backdrop-filter: blur(10px);
+                transition: all 0.2s ease;
             }
 
             .sidebar-modern .sidebar-profile-area:hover {
-                border-color: var(--sidebar-active-border);
-                box-shadow: 0 2px 8px rgba(59, 93, 231, 0.1);
+                background: rgba(255, 255, 255, 0.15);
+                border-color: rgba(255, 255, 255, 0.25);
+                transform: translateY(-2px);
             }
 
             .sidebar-modern .sidebar-profile-inner {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
                 cursor: pointer;
             }
 
             .sidebar-modern .sidebar-profile-avatar {
-                width: 32px;
-                height: 32px;
-                border-radius: 8px;
-                background: linear-gradient(135deg, #3b5de7, #6d8cff);
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.25);
                 color: #fff;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 12px;
+                font-size: 13px;
                 font-weight: 700;
                 flex-shrink: 0;
+                border: 2px solid rgba(255, 255, 255, 0.3);
             }
 
             .sidebar-modern .sidebar-profile-info {
                 flex: 1;
                 min-width: 0;
-                line-height: 1.2;
+                line-height: 1.3;
             }
 
             .sidebar-modern .sidebar-profile-name {
-                font-size: 13px;
+                font-size: 14px;
                 font-weight: 600;
-                color: var(--sidebar-hover-text);
+                color: #ffffff;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
 
             .sidebar-modern .sidebar-profile-email {
-                font-size: 10.5px;
-                color: var(--sidebar-text-muted);
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.7);
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
 
             .sidebar-modern .sidebar-profile-chevron {
-                color: var(--sidebar-text-muted);
+                color: rgba(255, 255, 255, 0.6);
                 flex-shrink: 0;
                 transition: transform 0.2s ease;
             }
 
             .sidebar-modern .sidebar-profile-area:hover .sidebar-profile-chevron {
                 transform: translateX(3px);
+                color: #ffffff;
             }
 
             /* ── Logout Button ── */
@@ -242,27 +247,25 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
-                margin: 4px 10px 12px;
-                padding: 10px 14px;
-                border-radius: 8px;
-                color: var(--sidebar-logout-text);
-                font-size: 13px;
+                margin: 8px 12px 16px;
+                padding: 11px 16px;
+                border-radius: 10px;
+                color: #fecaca;
+                font-size: 14px;
                 font-weight: 500;
                 text-decoration: none;
-                border: 1px solid transparent;
-                background: transparent;
-                transition: all 0.15s ease;
+                border: 1px solid rgba(254, 202, 202, 0.3);
+                background: rgba(254, 202, 202, 0.1);
+                transition: all 0.2s ease;
                 cursor: pointer;
                 width: auto;
             }
 
             .sidebar-modern .sidebar-logout-btn:hover {
-                background: var(--sidebar-logout-hover);
-                border-color: var(--sidebar-logout-border);
-            }
-
-            .sidebar-modern .sidebar-logout-btn:active {
-                transform: scale(0.98);
+                background: rgba(254, 202, 202, 0.2);
+                border-color: rgba(254, 202, 202, 0.5);
+                color: #ffffff;
+                transform: translateX(3px);
             }
 
             .sidebar-modern .sidebar-logout-btn svg {
@@ -274,8 +277,8 @@
             /* ── Divider ── */
             .sidebar-modern .sidebar-divider {
                 height: 1px;
-                background: var(--sidebar-divider);
-                margin: 6px 20px;
+                background: rgba(255, 255, 255, 0.1);
+                margin: 12px 20px;
             }
 
             /* ── Scrollbar ── */
@@ -319,7 +322,7 @@
             }
         </style>
     </head>
-    <body class="min-h-screen bg-white">
+    <body class="min-h-screen" style="background: var(--main-bg);">
         {{-- Sidebar --}}
         <div class="sidebar-modern fixed inset-y-0 left-0 z-30 flex w-[260px] flex-col overflow-hidden" data-flux-sidebar>
             {{-- Brand --}}
@@ -410,7 +413,7 @@
         {{-- Main Content --}}
         <div class="min-h-screen lg:pl-[260px]">
             {{-- Mobile Header --}}
-            <flux:header class="lg:hidden sticky top-0 z-20 border-b border-zinc-200 bg-white">
+            <flux:header class="lg:hidden sticky top-0 z-20 border-b border-zinc-200" style="background: var(--content-bg);">
                 <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
                 <flux:spacer />
                 <flux:dropdown position="top" align="end">

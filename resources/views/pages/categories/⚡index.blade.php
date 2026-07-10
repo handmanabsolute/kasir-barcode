@@ -65,11 +65,11 @@ new #[Title('Kategori Produk')] class extends Component {
 <div class="flex w-full flex-col gap-6">
     <div>
         <flux:heading size="xl">Kategori Produk</flux:heading>
-        <flux:text class="mt-1">Kelola kategori untuk mengelompokkan produk.</flux:text>
+        <flux:text class="mt-1" >Kelola kategori untuk mengelompokkan produk.</flux:text>
     </div>
 
     <div class="grid gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
+        <div class="rounded-xl border border-neutral-200 bg-white p-6">
             <flux:heading size="lg">{{ $editingId ? 'Edit Kategori' : 'Tambah Kategori' }}</flux:heading>
 
             <form wire:submit="save" class="mt-4 flex flex-col gap-4">
@@ -87,7 +87,7 @@ new #[Title('Kategori Produk')] class extends Component {
             </form>
         </div>
 
-        <div class="rounded-xl border border-neutral-200 bg-white p-6 dark:border-neutral-700 dark:bg-zinc-900">
+        <div class="rounded-xl border border-neutral-200 bg-white p-6">
             <flux:table>
                 <flux:table.columns>
                     <flux:table.column>Nama</flux:table.column>
